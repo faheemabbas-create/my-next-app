@@ -1,95 +1,99 @@
 "use client";
-
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export default function TodoApp() {
   const [todos, setTodos] = useState([]);
   const [text, setText] = useState("");
 
-  useEffect(() => {
-    try {
-      const saved = JSON.parse(localStorage.getItem("todos") || "[]");
-      if (Array.isArray(saved)) setTodos(saved);
-    } catch (e) {
-      console.error("Failed reading: ", e);
-    }
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem("todos", JSON.stringify(todos));
-  }, [todos]);
-
-  function addTodo(e) {
-    e?.preventDefault?.();
-    const value = text.trim();
-    if (!value) return;
-    const newTodo = { id: Date.now(), text: value, completed: false };
-    setTodos((prev) => [...prev, newTodo]);
+  const addTodo = () => {
+    if (text.trim() === "") return;
+    setTodos([...todos, { text, done: false }]);
     setText("");
-  }
+  };
 
-  function toggleTodo(id) {
-    setTodos((prev) => prev.map(t => t.id === id ? { ...t, completed: !t.completed } : t));
-  }
+  const toggleTodo = (index) => {
+    setTodos(
+      todos.map((todo, i) =>
+        i === index ? { ...todo, done: !todo.done } : todo
+      )
+    );
+  };
 
-  function deleteTodo(id) {
-    setTodos((prev) => prev.filter(t => t.id !== id));
-  }
+  const removeTodo = (index) => {
+    setTodos(todos.filter((_, i) => i !== index));
+  };
 
-  function clearAll() {
-
-
-    
+  const clearAll = () => {
     setTodos([]);
-  }
+  };
 
   return (
-    <div className="card">
-      <h1>ToDo app </h1>
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
+      <div className="w-full max-w-md bg-white shadow-lg rounded-2xl p-6">
+        <h1 className="text-2xl font-bold text-center mb-4">My ToDo List</h1>
 
-      <form className="form-row" onSubmit={addTodo}>
-        <input
-          type="text"
-          placeholder="Add a task..."
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-        />
-        <button type="submit" disabled={!text.trim()}>Add</button>
-      </form>
+        {/* Input + Add Button */}
+        <div className="flex gap-2 mb-4">
+          <input
+            type="text"
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            placeholder="Enter a task..."
+            onKeyDown={(e) => e.key === "Enter" && addTodo()}
+            className="flex-1 border border-gray-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          />
+          <button
+            onClick={addTodo}
+            className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-xl"
+          >
+            Add
+          </button>
+        </div>
 
-      {todos.length === 0 ? (
-        <p className="small">No tasks — add your first task.</p>
-      ) : (
-        <>
-          <ul>
-            {todos.map(todo => (
-              <li key={todo.id}>
-                <label style={{ display: 'flex', alignItems: 'center', gap: '0.95rem' }}>
-                  <input
-                    type="checkbox"
-                    checked={todo.completed}
-                    onChange={() => toggleTodo(todo.id)}
-                  />
-                  <span className={`todo-text ${todo.completed ? "done" : ""}`}>
-                    {todo.text}
-                  </span> </label>
-
-                <div>
-                  <button className="icon-btn" onClick={() => deleteTodo(todo.id)} title="Delete"> DEL </button>
-                </div>
-              </li>
-            ))}
-          </ul>
-
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '0.75rem' }}>
-
+        {/* Clear All */}
+        {todos.length > 0 && (
+          <div className="flex justify-end mb-4">
+            <button
+              onClick={clearAll}
+              className="text-sm text-red-500 hover:text-red-700"
+            >
+              Clear All
+            </button>
           </div>
-          <div>
-            <button onClick={clearAll} className="icon-btn">Clear All</button>
-          </div>
-        </>
-      )}
+        )}
 
+        {/* Todo List */}
+        <ul className="space-y-2">
+          {todos.map((todo, i) => (
+            <li
+              key={i}
+              className="flex items-center justify-between bg-gray-50 border p-3 rounded-xl"
+            >
+              <div className="flex items-center gap-2 flex-1">
+                <input
+                  type="checkbox"
+                  checked={todo.done}
+                  onChange={() => toggleTodo(i)}
+                  className="w-4 h-4 accent-blue-500 cursor-pointer"
+                />
+                <span
+                  className={`${
+                    todo.done ? "line-through text-gray-400" : ""
+                  }`}
+                >
+                  {todo.text}
+                </span>
+              </div>
+              <button
+                onClick={() => removeTodo(i)}
+                className="text-red-500 hover:text-red-700 ml-2"
+              >
+                ✕
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }
