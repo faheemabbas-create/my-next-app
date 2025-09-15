@@ -9,7 +9,7 @@ export default function TodoApp() {
     fetch("http://localhost:4000/todos")
       .then((res) => res.json())
       .then(setTodos)
-      .catch((err) => console.error("Failed to get todos", err));
+      .catch((err) => console.error("Failed to get", err));
   }, []);
 
   const addTodo = async () => {
