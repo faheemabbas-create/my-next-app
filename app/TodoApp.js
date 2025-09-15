@@ -48,7 +48,6 @@ export default function TodoApp() {
       <div className="w-full max-w-md bg-white shadow-lg rounded-2xl p-6">
         <h1 className="text-2xl font-bold text-center mb-4">ToDo List</h1>
 
-        {/* Input + Add Button */}
         <div className="flex gap-2 mb-4">
           <input
             type="text"
