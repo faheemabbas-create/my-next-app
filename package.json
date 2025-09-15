@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "cors": "^2.8.5",
     "next": "15.5.3",
     "package-name": "^0.1.0",
     "react": "19.1.0",

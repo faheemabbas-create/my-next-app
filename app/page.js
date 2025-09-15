@@ -1,4 +1,5 @@
 
+"use client";
 import TodoApp from "./TodoApp";
 
 export default function Page() {
@@ -7,4 +8,5 @@ export default function Page() {
       <TodoApp />
     </main>
   );
+
 }

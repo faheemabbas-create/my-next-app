@@ -1,29 +1,46 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function TodoApp() {
   const [todos, setTodos] = useState([]);
   const [text, setText] = useState("");
 
-  const addTodo = () => {
+  // Load todos from Express when component mounts
+  useEffect(() => {
+    fetch("http://localhost:4000/todos")
+      .then((res) => res.json())
+      .then(setTodos)
+      .catch((err) => console.error("Failed to fetch todos", err));
+  }, []);
+
+  const addTodo = async () => {
     if (text.trim() === "") return;
-    setTodos([...todos, { text, done: false }]);
+    const res = await fetch("http://localhost:4000/todos", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text }),
+    });
+    const newTodo = await res.json();
+    setTodos([...todos, newTodo]);
     setText("");
   };
 
-  const toggleTodo = (index) => {
+  const toggleTodo = async (id) => {
+    await fetch(`http://localhost:4000/todos/${id}`, { method: "PUT" });
     setTodos(
-      todos.map((todo, i) =>
-        i === index ? { ...todo, done: !todo.done } : todo
+      todos.map((todo) =>
+        todo.id === id ? { ...todo, done: !todo.done } : todo
       )
     );
   };
 
-  const removeTodo = (index) => {
-    setTodos(todos.filter((_, i) => i !== index));
+  const removeTodo = async (id) => {
+    await fetch(`http://localhost:4000/todos/${id}`, { method: "DELETE" });
+    setTodos(todos.filter((todo) => todo.id !== id));
   };
 
-  const clearAll = () => {
+  const clearAll = async () => {
+    await fetch("http://localhost:4000/todos", { method: "DELETE" });
     setTodos([]);
   };
 
@@ -64,16 +81,16 @@ export default function TodoApp() {
 
         {/* Todo List */}
         <ul className="space-y-2">
-          {todos.map((todo, i) => (
+          {todos.map((todo) => (
             <li
-              key={i}
+              key={todo.id}
               className="flex items-center justify-between bg-gray-50 border p-3 rounded-xl"
             >
               <div className="flex items-center gap-2 flex-1">
                 <input
                   type="checkbox"
                   checked={todo.done}
-                  onChange={() => toggleTodo(i)}
+                  onChange={() => toggleTodo(todo.id)}
                   className="w-4 h-4 accent-blue-500 cursor-pointer"
                 />
                 <span
@@ -85,7 +102,7 @@ export default function TodoApp() {
                 </span>
               </div>
               <button
-                onClick={() => removeTodo(i)}
+                onClick={() => removeTodo(todo.id)}
                 className="text-red-500 hover:text-red-700 ml-2"
               >
                 ✕
