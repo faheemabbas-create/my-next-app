@@ -66,9 +66,7 @@ export default function TodoApp() {
           </button>
         </div>
 
-       
-
-        {/* Todo List */}
+      
         <ul className="space-y-2">
           {todos.map((todo) => (
             <li
@@ -94,7 +92,7 @@ export default function TodoApp() {
                 onClick={() => removeTodo(todo.id)}
                 className="text-red-500 hover:text-red-700 ml-2"
               >
-                ✕
+                DEL
               </button>
             </li>
           ))}
