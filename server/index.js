@@ -7,7 +7,7 @@ const PORT = 4000;
 app.use(cors());
 app.use(express.json());
 
-let todos = []; // temporary storage (in memory)
+let todos = []; 
 
 app.get("/todos", (req, res) => {
   res.json(todos);

@@ -5,12 +5,11 @@ export default function TodoApp() {
   const [todos, setTodos] = useState([]);
   const [text, setText] = useState("");
 
-  // Load todos from Express when component mounts
   useEffect(() => {
     fetch("http://localhost:4000/todos")
       .then((res) => res.json())
       .then(setTodos)
-      .catch((err) => console.error("Failed to fetch todos", err));
+      .catch((err) => console.error("Failed to get todos", err));
   }, []);
 
   const addTodo = async () => {
