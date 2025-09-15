@@ -45,27 +45,28 @@ export default function TodoApp() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
-      <div className="w-full max-w-md bg-white shadow-lg rounded-2xl p-6">
-        <h1 className="text-2xl font-bold text-center mb-4">My To-Do List</h1>
+      <div className="w-full max-w-md sm:max-w-lg lg:max-w-xl bg-white shadow-lg rounded-2xl p-6">
+        <h1 className="text-2xl sm:text-3xl font-bold text-center mb-4">
+          My To-Do List
+        </h1>
 
-        <div className="flex gap-2 mb-4">
+        <div className="flex flex-col sm:flex-row gap-2 mb-4">
           <input
             type="text"
             value={text}
             onChange={(e) => setText(e.target.value)}
             placeholder="Enter a task."
             onKeyDown={(e) => e.key === "Enter" && addTodo()}
-            className="flex-1 border border-gray-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            className="flex-1 border border-gray-300 rounded-xl px-3 py-2 text-sm sm:text-base focus:ring-2 focus:ring-blue-500 focus:outline-none"
           />
           <button
             onClick={addTodo}
-            className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-xl"
+            className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-xl text-sm sm:text-base"
           >
             Add
           </button>
         </div>
 
-      
         <ul className="space-y-2">
           {todos.map((todo) => (
             <li
@@ -80,7 +81,7 @@ export default function TodoApp() {
                   className="w-4 h-4 accent-blue-500 cursor-pointer"
                 />
                 <span
-                  className={`${
+                  className={`text-sm sm:text-base ${
                     todo.done ? "line-through text-gray-400" : ""
                   }`}
                 >
@@ -89,13 +90,22 @@ export default function TodoApp() {
               </div>
               <button
                 onClick={() => removeTodo(todo.id)}
-                className="text-red-500 hover:text-red-700 ml-2"
+                className="text-red-500 hover:text-red-700 ml-2 text-xs sm:text-sm"
               >
                 DEL
               </button>
             </li>
           ))}
         </ul>
+
+        {todos.length > 0 && (
+          <button
+            onClick={clearAll}
+            className="mt-4 w-full bg-red-500 hover:bg-red-600 text-white py-2 rounded-xl text-sm sm:text-base"
+          >
+            Clear All
+          </button>
+        )}
       </div>
     </div>
   );
