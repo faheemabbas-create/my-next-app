@@ -46,7 +46,7 @@ export default function TodoApp() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
       <div className="w-full max-w-md bg-white shadow-lg rounded-2xl p-6">
-        <h1 className="text-2xl font-bold text-center mb-4">ToDo List</h1>
+        <h1 className="text-2xl font-bold text-center mb-4">My To-Do List</h1>
 
         <div className="flex gap-2 mb-4">
           <input
