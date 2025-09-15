@@ -46,7 +46,7 @@ export default function TodoApp() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
       <div className="w-full max-w-md bg-white shadow-lg rounded-2xl p-6">
-        <h1 className="text-2xl font-bold text-center mb-4">My ToDo List</h1>
+        <h1 className="text-2xl font-bold text-center mb-4">ToDo List</h1>
 
         {/* Input + Add Button */}
         <div className="flex gap-2 mb-4">
@@ -54,7 +54,7 @@ export default function TodoApp() {
             type="text"
             value={text}
             onChange={(e) => setText(e.target.value)}
-            placeholder="Enter a task..."
+            placeholder="Enter a task."
             onKeyDown={(e) => e.key === "Enter" && addTodo()}
             className="flex-1 border border-gray-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
           />
@@ -66,17 +66,7 @@ export default function TodoApp() {
           </button>
         </div>
 
-        {/* Clear All */}
-        {todos.length > 0 && (
-          <div className="flex justify-end mb-4">
-            <button
-              onClick={clearAll}
-              className="text-sm text-red-500 hover:text-red-700"
-            >
-              Clear All
-            </button>
-          </div>
-        )}
+       
 
         {/* Todo List */}
         <ul className="space-y-2">
