@@ -5,8 +5,9 @@ export default function TodoApp() {
   const [todos, setTodos] = useState([]);
   const [text, setText] = useState("");
 
+  // ✅ Fetch from Next.js API (no localhost:4000 needed)
   useEffect(() => {
-    fetch("http://localhost:4000/todos")
+    fetch("/api/todo")
       .then((res) => res.json())
       .then(setTodos)
       .catch((err) => console.error("Failed to get", err));
@@ -14,7 +15,7 @@ export default function TodoApp() {
 
   const addTodo = async () => {
     if (text.trim() === "") return;
-    const res = await fetch("http://localhost:4000/todos", {
+    const res = await fetch("/api/todo", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ text }),
@@ -25,7 +26,7 @@ export default function TodoApp() {
   };
 
   const toggleTodo = async (id) => {
-    await fetch(`http://localhost:4000/todos/${id}`, { method: "PUT" });
+    await fetch(`/api/todo/${id}`, { method: "PUT" });
     setTodos(
       todos.map((todo) =>
         todo.id === id ? { ...todo, done: !todo.done } : todo
@@ -34,12 +35,12 @@ export default function TodoApp() {
   };
 
   const removeTodo = async (id) => {
-    await fetch(`http://localhost:4000/todos/${id}`, { method: "DELETE" });
+    await fetch(`/api/todo/${id}`, { method: "DELETE" });
     setTodos(todos.filter((todo) => todo.id !== id));
   };
 
   const clearAll = async () => {
-    await fetch("http://localhost:4000/todos", { method: "DELETE" });
+    await fetch("/api/todo", { method: "DELETE" });
     setTodos([]);
   };
 
