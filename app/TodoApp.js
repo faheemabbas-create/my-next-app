@@ -5,7 +5,7 @@ export default function TodoApp() {
   const [todos, setTodos] = useState([]);
   const [text, setText] = useState("");
 
-  // ✅ Fetch from Next.js API (no localhost:4000 needed)
+
   useEffect(() => {
     fetch("/api/todo")
       .then((res) => res.json())
@@ -48,7 +48,7 @@ export default function TodoApp() {
     <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
       <div className="w-full max-w-md sm:max-w-lg lg:max-w-xl bg-white shadow-lg rounded-2xl p-6">
         <h1 className="text-2xl sm:text-3xl font-bold text-center mb-4">
-          My To-Do List
+          My ToDo List
         </h1>
 
         <div className="flex flex-col sm:flex-row gap-2 mb-4">
@@ -104,7 +104,7 @@ export default function TodoApp() {
             onClick={clearAll}
             className="mt-4 w-full bg-red-500 hover:bg-red-600 text-white py-2 rounded-xl text-sm sm:text-base"
           >
-            Clear All
+            Clear
           </button>
         )}
       </div>
